@@ -39,6 +39,12 @@ using namespace std;
 //Aqui se declaran las variables globales
 
 //Aqui se declaran los prototipos de las funciones
+struct Calendario {
+    unsigned short int dia = 0;
+    unsigned short int mes = 0;
+    unsigned short int anio = 0;
+};
+int verifica_fecha (struct Calendario);
 
 int main()
 {
@@ -47,16 +53,40 @@ int main()
 	//usted codifique en C++
 	
 	//Declarando una variable localecon
-	bool verifica_fecha;
+    struct Calendario cl1;
+
+    cout<<"Esto es un calendario, vamos aingresar la fecha en tres secciones. Primero el dia, luego el mes y luego el año"<<endl;
+    cout<<"ingresa el dia: "<<endl;
+    cin>>cl1.dia;
+    cout<<"Ingresa el mes: "<<endl;
+    cin>>cl1.mes;
+    cout<<"ingresa el año: "<<endl;
+    cin>>cl1.anio;
 	
 	//Aqui puede invocar su funcion
 	
-	if(verifica_fecha)
-		cout<<"Fecha sin problemas!<<endl;
+    if(verifica_fecha(cl1))
+        cout<<"Fecha sin problemas!"<<endl;
 	else
-		cout<<"Fecha presenta errores!<<endl;
-	
+        cout<<"Fecha presenta errores!"<<endl;
 	return 0;
+}
+
+int verifica_fecha (struct Calendario cl) {
+    int retorno = 0;
+    unsigned short int bisiesto = 0;
+    if (cl.mes == 2){
+        bisiesto = cl.anio /100;
+        retorno = 0;
+    }
+    else if (cl.mes > 12)
+        retorno = 0;
+    else if (cl.anio == 0)
+        retorno = 0;
+    else
+        retorno = 1;
+
+    return retorno;
 }
 
 
