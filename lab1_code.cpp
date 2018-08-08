@@ -43,8 +43,10 @@ struct Calendario {
     unsigned short int dia = 0;
     unsigned short int mes = 0;
     unsigned short int anio = 0;
+    unsigned short int diasmeses[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
 };
-int verifica_fecha (struct Calendario);
+unsigned short int verifica_fecha (struct Calendario);
+unsigned short int calcula_bisiesto (unsigned short int annio);
 
 int main()
 {
@@ -55,38 +57,60 @@ int main()
 	//Declarando una variable localecon
     struct Calendario cl1;
 
-    cout<<"Esto es un calendario, vamos aingresar la fecha en tres secciones. Primero el dia, luego el mes y luego el año"<<endl;
+    cout<<"Esto es un calendario, vamos aingresar la fecha en tres secciones. Primero el dia, luego el mes y luego el año. Este ultimo va desde 0 a 127"<<endl;
     cout<<"ingresa el dia: "<<endl;
     cin>>cl1.dia;
     cout<<"Ingresa el mes: "<<endl;
     cin>>cl1.mes;
     cout<<"ingresa el año: "<<endl;
     cin>>cl1.anio;
-	
+
 	//Aqui puede invocar su funcion
 	
     if(verifica_fecha(cl1))
-        cout<<"Fecha sin problemas!"<<endl;
+        cout<<"Fecha "<<cl1.dia<<"-"<<cl1.mes<<"-"<<cl1.anio+1990<<" sin problemas!"<<endl;
 	else
-        cout<<"Fecha presenta errores!"<<endl;
+        cout<<"Fecha "<<cl1.dia<<"-"<<cl1.mes<<"-"<<cl1.anio+1990<<" NO es valida!"<<endl;
 	return 0;
 }
 
-int verifica_fecha (struct Calendario cl) {
-    int retorno = 0;
-    unsigned short int bisiesto = 0;
-    if (cl.mes == 2){
-        bisiesto = cl.anio /100;
+unsigned short int verifica_fecha (struct Calendario cl) {
+    unsigned short int retorno = 0;
+    if (cl.anio > 127)
         retorno = 0;
-    }
     else if (cl.mes > 12)
         retorno = 0;
-    else if (cl.anio == 0)
+    else if (cl.anio > 127)
         retorno = 0;
-    else
-        retorno = 1;
+    else{
+        if (calcula_bisiesto(cl.anio+1990))
+            cl.diasmeses[1] = 29;
+        if (cl.dia > cl.diasmeses[cl.mes-1] || cl.dia == 0)
+            retorno = 0;
+        else
+            retorno = 1;
+    }
 
     return retorno;
+}
+
+unsigned short int calcula_bisiesto(unsigned short int anio){
+    unsigned short int factor = 0;
+    factor = anio % 4;
+    if (factor == 0){
+        factor = anio % 100;
+        if (factor == 0)
+            return 0;
+        else
+            return 1;
+    }
+    else{
+        factor = anio % 400;
+        if (factor == 0)
+            return 1;
+        else
+            return 0;
+    }
 }
 
 
