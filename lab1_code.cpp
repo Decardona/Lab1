@@ -4,7 +4,7 @@
 *  Fecha: Agosto 6/2018 - Agosto 13/2018
 *  Plazo máximo para enviar enlace para clonar el repositorio: Agosto 13/2018 - 09:29pm
 *  Estudiante1: Diego Esteban Cardona Bedoya
-*  Estudiante2: Nombres y apellidos completos (Opcional, puede trabajar individualmente)
+*  Estudiante2: Victor Manuel Parra Julio (Opcional, puede trabajar individualmente)
 *  Fecha del ultimo Commit en GitHub: Agregue la fecha y hora del ultimo Commit (aproximada)
 *
 
@@ -75,9 +75,13 @@ using namespace std;
 
 //Aqui se declaran las variables globales
 char arreglo_desordenado[] = "ugANMBpofJWMQZbbwktcynqidfgroc";
-	
+char anagrama1[]= "zorra";
+char anagrama2[] = "rrazo";
 
 //Aqui se declaran los prototipos de las funciones
+bool son_anagramas(char an1[], char an2[]);
+void ordenar(char arreglo_desordenado[]);
+int buscar(char arrM[], char arrm[]);
 
 int main()
 {
@@ -86,40 +90,117 @@ int main()
 	//usted codifique en C++
 	
 	//Declarando una variable local
-	bool verifica_fecha;
+    //bool verifica_fecha;
 	
-	bool son_anagramas;
+    bool anagrama;
 	
-	int index_busqueda = 0;
+    int index_busqueda = 0;
 	
 	//Aqui puede invocar sus funciones para verficar fecha y anagramas
+    anagrama = son_anagramas(anagrama1, anagrama2);
 	
-	if(verifica_fecha)
+    /*if(verifica_fecha)
 		cout<<"Fecha sin problemas!"<<endl;
 	else
-		cout<<"Fecha presenta errores!"<<endl;
+        cout<<"Fecha presenta errores!"<<endl;*/
 	
-	if(son_anagramas)
+    if(anagrama)
 		cout<<"Los arreglos son anagramas!"<<endl;
 	else
 		cout<<"Los arreglos no son anagramas!"<<endl;
 	
-	//Odenando arreglos
-	cout<<"Arreglo desordenado: "<<arreglo_desordenado<<endl;
-	//Invoque aqui su funcion para ordenar arreglos
+    //Odenando arreglos
+    cout<<"Arreglo desordenado: "<<arreglo_desordenado<<endl;
+    //Invoque aqui su funcion para ordenar arreglos
+    ordenar(arreglo_desordenado);
+    cout<<"Arreglo ordenado: "<<arreglo_desordenado<<endl;
 	
-	cout<<"Arreglo ordenado: "<<arreglo_desordenado<<endl;
+    //Buscando una palabra en un arreglo
+    char p_a_buscar[] = "Informatica";
+    char array_busqueda[] = "Bienvenidos a la primera practica del curso de Informatica 2 en el semestre 201_2";
+    //Aqui puede invocar su funcion de busqueda con los parametros p_a_buscar y array_busqueda
 	
-	//Buscando una palabra en un arreglo
-	char p_a_buscar[] = "Informatica";
-	char array_busqueda[] = "Bienvenidos a la primera practica del curso de Informatica 2 en el semestre 201_2";
-	//Aqui puede invocar su funcion de busqueda con los parametros p_a_buscar y array_busqueda
-	
-	if(index_busqueda)
-		cout<<"Palabra encontrada en la posicion: "<<index_busqueda<<endl;
+    index_busqueda = buscar(array_busqueda, p_a_buscar);
+    if(index_busqueda>=0)
+        cout<<"Palabra encontrada en la posicion: "<<index_busqueda<<endl;
+    else
+        cout<<"Hubo un problema al realizar la busqueda. Puede que la palabra "
+              "a buscar sea mayor que la frase en donde se buscara o no se encontraron coincidencias"<<endl;
 	
 	
 	return 0;
+}
+
+bool son_anagramas(char an1[], char an2[]){
+    unsigned int suma = 0;
+    unsigned int suma2 = 0;
+    unsigned int len1 = 0;
+    unsigned int len2 = 0;
+    len1 = strlen(an1);
+    len2 = strlen(an2);
+    for (unsigned int i=0; i<=len1; i++){
+        suma += tolower(an1[i]);
+    }
+    for (unsigned int i=0; i<=len2; i++){
+        suma2 += tolower(an2[i]);
+    }
+    if (suma==suma2)
+        return 1;
+    else
+        return 0;
+}
+
+void ordenar(char arreglo_desordenado[]){
+    unsigned int iteraciones = 0;
+    unsigned int len = strlen(arreglo_desordenado);
+    bool iterar = true;
+    char auxiliar;
+    unsigned int pos2 = 0;
+    while (iterar){
+        for (unsigned int i=0; i<=len; i++){
+            pos2 = i+1;
+            if (pos2 == len){
+                pos2 = i;
+                if (iteraciones == 0)
+                    iterar = false;
+                else
+                    iteraciones = 0;
+            }
+            if (arreglo_desordenado[pos2]<arreglo_desordenado[i]){
+                auxiliar = arreglo_desordenado[i];
+                arreglo_desordenado[i] = arreglo_desordenado[pos2];
+                arreglo_desordenado[pos2] = auxiliar;
+                iteraciones +=1;
+            }
+
+        }
+    }
+}
+
+int buscar(char arrM[], char arrm[]){
+    int lenM = strlen(arrM);
+    int lenm = strlen(arrm);
+    int index = 0;
+    int coincide = 0;
+    int j=0;
+    if (lenm <= lenM){
+        for (int i=0; i<=lenM; i++){
+            if(arrM[i]==arrm[j]){
+                coincide ++;
+                if (j==0){
+                    index = i;
+                }
+                j++;
+            }else if (coincide == lenm)
+                return index;
+        }
+        if (coincide != lenm)
+            index = -1;
+    }
+    else
+        index = -1;
+    return index;
+
 }
 
 
