@@ -193,6 +193,8 @@ int buscar(char arrM[], char arrm[]){
                 j++;
             }else if (coincide == lenm)
                 return index;
+            else
+                coincide = 0;
         }
         if (coincide != lenm)
             index = -1;
